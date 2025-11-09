@@ -1,19 +1,26 @@
-name: Deploy via FTP
-runs-on: ubuntu-latest
+name: Deploy to InfinityFree
 
-steps:
-  # Step 1: Clone the latest code from GitHub
-  - name: Get latest code
-    uses: actions/checkout@v4
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
-  # Step 2: Upload code via FTP
-  - name: Deploy to InfinityFree via FTP
-    uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-    with:
-      server: ftpupload.net
-      username: ${{ secrets.FTP_USERNAME }}
-      password: ${{ secrets.FTP_PASSWORD }}
-      server-dir: /cycling.ct.ws/htdocs/ # For addon domains
-      timeout: 86400000
-      log-level: standard
-# Run manually or on push to the mai
+jobs:
+  deploy:
+    name: Deploy via FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v4
+
+      - name: Deploy to InfinityFree via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftpupload.net
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /cycling.ct.ws/htdocs/
+          timeout: 86400000
+          log-level: standard
