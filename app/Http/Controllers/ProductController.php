@@ -93,10 +93,11 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2000',
         ]);
 
+
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('uploads', 'public');
     } else {
-        $imagePath = null;
+        $imagePath = $product->image;
     }
     $product->update([
         'name' => $request->name,
